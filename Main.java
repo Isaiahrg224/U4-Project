@@ -25,7 +25,9 @@ public class Main {
         int amountOfPair = 0;
         int amountOfHighCard = 0;
         String[] lines = fileData.split("\n");
+        PokerHand[] pokerHands = new PokerHand[lines.length];
         for (String line : lines) {
+            PokerHand currentHand = new PokerHand();
             String[] hands = line.split("[,|]");
             int[] handsToNumbers = new int[hands.length + 2];
             for (int i = 0; i < hands.length; i++) {
@@ -40,7 +42,10 @@ public class Main {
                     handsToNumbers[i] = 14;
                 } else {
                     handsToNumbers[i] = Integer.parseInt(hands[i]);
-                }}
+                }
+                currentHand.setCardsInHand(i, handsToNumbers[i]);
+            }
+            currentHand.setBidValue(handsToNumbers[5]);
                 boolean fiveOfAKind = true;
                 boolean fourOfAKind = true;
                 boolean threeOfAKind = true;
@@ -196,17 +201,18 @@ public class Main {
                     amountOfHighCard++;
                 }
 
-
+                currentHand.setHandPowerType(handsToNumbers[6]);
+                currentHand.setHandPowerCard(handsToNumbers[7]);
                 System.out.println(Arrays.toString(handsToNumbers));
         }
-        int[] currentMinumimHand = new int[2];
-        currentMinumimHand[0] = 0;
-        currentMinumimHand[1] = 0;
-        for(int handPower = 1; handPower < lines.length + 1; handPower++){
-            for(int handNumber = 0; handNumber < lines.length; handNumber++ ){
-                if();
-            }
-        }
+//        int[] currentMinumimHand = new int[2];
+//        currentMinumimHand[0] = 0;
+//        currentMinumimHand[1] = 0;
+//        for(int handPower = 1; handPower < lines.length + 1; handPower++){
+//            for(int handNumber = 0; handNumber < lines.length; handNumber++ ){
+//                if();
+        //}
+        //}
         System.out.println("Number of five of a kind hands: " + amountOfFiveOfAKind);
         System.out.println("Number of four of a kind hands: " + amountOfFourOfAKind);
         System.out.println("Number of full house hands: " + amountOfFullHouse);
