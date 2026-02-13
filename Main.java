@@ -3,12 +3,14 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+
 public class Main {
     public static void main(String[] args) {
         String fileData = "";
         try {
             File f = new File("src/data");
             Scanner s = new Scanner(f);
+
 
             while (s.hasNextLine()) {
                 String line = s.nextLine();
@@ -17,6 +19,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
+        int index = 0;
         int amountOfFiveOfAKind = 0;
         int amountOfFourOfAKind = 0;
         int amountOfFullHouse = 0;
@@ -32,6 +35,7 @@ public class Main {
             int[] handsToNumbers = new int[hands.length + 2];
             for (int i = 0; i < hands.length; i++) {
 
+
                 if (hands[i].equals("Jack")) {
                     handsToNumbers[i] = 11;
                 } else if (hands[i].equals("Queen")) {
@@ -43,176 +47,216 @@ public class Main {
                 } else {
                     handsToNumbers[i] = Integer.parseInt(hands[i]);
                 }
-                currentHand.setCardsInHand(i, handsToNumbers[i]);
+                if(i < 5) {
+                    currentHand.setCardsInHand(i, handsToNumbers[i]);
+                }
             }
             currentHand.setBidValue(handsToNumbers[5]);
-                boolean fiveOfAKind = true;
-                boolean fourOfAKind = true;
-                boolean threeOfAKind = true;
-                int amountOfPairs = 0;
+            boolean fiveOfAKind = true;
+            boolean fourOfAKind = true;
+            boolean threeOfAKind = true;
+            int amountOfPairs = 0;
 
-                for (int z = 0; z < hands.length - 1; z++) {
-                    if (!(handsToNumbers[0] == handsToNumbers[z])) {
-                        fiveOfAKind = false;
-                    }
+
+            for (int z = 0; z < hands.length - 1; z++) {
+                if (!(handsToNumbers[0] == handsToNumbers[z])) {
+                    fiveOfAKind = false;
                 }
-                if(fiveOfAKind){
+            }
+            if(fiveOfAKind){
+                handsToNumbers[7] = handsToNumbers[0];
+            }
+
+
+            int amountOfSameCards1 = 0;
+            int amountOfSameCards2 = 0;
+            for (int z = 0; z < hands.length - 1; z++) {
+                if ((handsToNumbers[0] == handsToNumbers[z])) {
+                    amountOfSameCards1++;
+                }
+                if ((handsToNumbers[1] == handsToNumbers[z])) {
+                    amountOfSameCards2++;
+                }
+            }
+            if (!(amountOfSameCards1 == 4 || amountOfSameCards2 == 4)) {
+                fourOfAKind = false;
+            }
+            if(fourOfAKind && handsToNumbers[7] == 0){
+                if(amountOfSameCards1 == 4){
                     handsToNumbers[7] = handsToNumbers[0];
                 }
-
-                int amountOfSameCards1 = 0;
-                int amountOfSameCards2 = 0;
-                for (int z = 0; z < hands.length - 1; z++) {
-                    if ((handsToNumbers[0] == handsToNumbers[z])) {
-                        amountOfSameCards1++;
-                    }
-                    if ((handsToNumbers[1] == handsToNumbers[z])) {
-                        amountOfSameCards2++;
-                    }
-                }
-                if (!(amountOfSameCards1 == 4 || amountOfSameCards2 == 4)) {
-                    fourOfAKind = false;
-                }
-                if(fourOfAKind && handsToNumbers[7] == 0){
-                    if(amountOfSameCards1 == 4){
-                    handsToNumbers[7] = handsToNumbers[0];
-                }
-                    if(amountOfSameCards2 == 4){
-                        handsToNumbers[7] = handsToNumbers[1];
-                }
-                }
-
-                amountOfSameCards1 = 0;
-                amountOfSameCards2 = 0;
-                int amountOfSameCards3 = 0;
-                for (int z = 0; z < hands.length - 1; z++) {
-                    if ((handsToNumbers[0] == handsToNumbers[z])) {
-                        amountOfSameCards1++;
-                    }
-                    if ((handsToNumbers[1] == handsToNumbers[z])) {
-                        amountOfSameCards2++;
-                    }
-                    if ((handsToNumbers[2] == handsToNumbers[z])) {
-                        amountOfSameCards3++;
-                    }
-                }
-                if (!(amountOfSameCards1 == 3 || amountOfSameCards2 == 3 || amountOfSameCards3 == 3)) {
-                    threeOfAKind = false;
-                }
-                if(threeOfAKind && handsToNumbers[7] == 0){
-                    if(amountOfSameCards1 == 3){
-                    handsToNumbers[7] = handsToNumbers[0];
-                }
-                    if(amountOfSameCards2 == 3){
+                if(amountOfSameCards2 == 4){
                     handsToNumbers[7] = handsToNumbers[1];
                 }
-                    if(amountOfSameCards3 == 3){
+            }
+
+
+            amountOfSameCards1 = 0;
+            amountOfSameCards2 = 0;
+            int amountOfSameCards3 = 0;
+            for (int z = 0; z < hands.length - 1; z++) {
+                if ((handsToNumbers[0] == handsToNumbers[z])) {
+                    amountOfSameCards1++;
+                }
+                if ((handsToNumbers[1] == handsToNumbers[z])) {
+                    amountOfSameCards2++;
+                }
+                if ((handsToNumbers[2] == handsToNumbers[z])) {
+                    amountOfSameCards3++;
+                }
+            }
+            if (!(amountOfSameCards1 == 3 || amountOfSameCards2 == 3 || amountOfSameCards3 == 3)) {
+                threeOfAKind = false;
+            }
+            if(threeOfAKind && handsToNumbers[7] == 0){
+                if(amountOfSameCards1 == 3){
+                    handsToNumbers[7] = handsToNumbers[0];
+                }
+                if(amountOfSameCards2 == 3){
+                    handsToNumbers[7] = handsToNumbers[1];
+                }
+                if(amountOfSameCards3 == 3){
                     handsToNumbers[7] = handsToNumbers[2];
                 }
             }
-                amountOfSameCards1 = 0;
-                amountOfSameCards2 = 0;
-                amountOfSameCards3 = 0;
-                int amountOfSameCards4 = 0;
-                int amountOfSameCards5 = 0;
-                for (int z = 0; z < hands.length - 1; z++) {
-                    if ((handsToNumbers[0] == handsToNumbers[z])) {
-                        amountOfSameCards1++;
-                    }
-                    if ((handsToNumbers[1] == handsToNumbers[z])) {
-                        amountOfSameCards2++;
-                    }
-                    if ((handsToNumbers[2] == handsToNumbers[z])) {
-                        amountOfSameCards3++;
-                    }
-                    if ((handsToNumbers[3] == handsToNumbers[z])) {
-                        amountOfSameCards4++;
-                    }
-                    if ((handsToNumbers[4] == handsToNumbers[z])) {
-                        amountOfSameCards5++;
-                    }
+            amountOfSameCards1 = 0;
+            amountOfSameCards2 = 0;
+            amountOfSameCards3 = 0;
+            int amountOfSameCards4 = 0;
+            int amountOfSameCards5 = 0;
+            for (int z = 0; z < hands.length - 1; z++) {
+                if ((handsToNumbers[0] == handsToNumbers[z])) {
+                    amountOfSameCards1++;
                 }
-                boolean fullHousePossibile = false;
-                    if ((amountOfSameCards1 + amountOfSameCards2 + amountOfSameCards3 + amountOfSameCards4 +
-                        amountOfSameCards5 == 7)) {
-                        amountOfPairs = 1;
+                if ((handsToNumbers[1] == handsToNumbers[z])) {
+                    amountOfSameCards2++;
+                }
+                if ((handsToNumbers[2] == handsToNumbers[z])) {
+                    amountOfSameCards3++;
+                }
+                if ((handsToNumbers[3] == handsToNumbers[z])) {
+                    amountOfSameCards4++;
+                }
+                if ((handsToNumbers[4] == handsToNumbers[z])) {
+                    amountOfSameCards5++;
+                }
             }
-                    if ((amountOfSameCards1 + amountOfSameCards2 + amountOfSameCards3 + amountOfSameCards4 +
-                        amountOfSameCards5 == 9)) {
-                        amountOfPairs = 2;
+            boolean fullHousePossibile = false;
+            if ((amountOfSameCards1 + amountOfSameCards2 + amountOfSameCards3 + amountOfSameCards4 +
+                    amountOfSameCards5 == 7)) {
+                amountOfPairs = 1;
             }
-                    if ((amountOfSameCards1 + amountOfSameCards2 + amountOfSameCards3 + amountOfSameCards4 +
-                        amountOfSameCards5 == 13)){
-                        fullHousePossibile = true;
+            if ((amountOfSameCards1 + amountOfSameCards2 + amountOfSameCards3 + amountOfSameCards4 +
+                    amountOfSameCards5 == 9)) {
+                amountOfPairs = 2;
             }
-                    if(amountOfPairs >= 1 && handsToNumbers[7] == 0){
-                        if(amountOfSameCards1 == 2){
+            if ((amountOfSameCards1 + amountOfSameCards2 + amountOfSameCards3 + amountOfSameCards4 +
+                    amountOfSameCards5 == 13)){
+                fullHousePossibile = true;
+            }
+            if(amountOfPairs >= 1 && handsToNumbers[7] == 0){
+                if(amountOfSameCards1 == 2){
                     handsToNumbers[7] = handsToNumbers[0];
                 }
-                    if(amountOfSameCards2 == 2 && handsToNumbers[1] > handsToNumbers[7]){
+                if(amountOfSameCards2 == 2 && handsToNumbers[1] > handsToNumbers[7]){
                     handsToNumbers[7] = handsToNumbers[1];
                 }
-                    if(amountOfSameCards3 == 2 && handsToNumbers[2] > handsToNumbers[7]){
+                if(amountOfSameCards3 == 2 && handsToNumbers[2] > handsToNumbers[7]){
                     handsToNumbers[7] = handsToNumbers[2];
                 }
-                    if(amountOfSameCards4 == 2 &&  handsToNumbers[3] > handsToNumbers[7]){
-                        handsToNumbers[7] = handsToNumbers[3];
-                    }
-                    if(amountOfSameCards5 == 2 &&  handsToNumbers[4] > handsToNumbers[7]){
-                        handsToNumbers[7] = handsToNumbers[4];
-                    }
+                if(amountOfSameCards4 == 2 &&  handsToNumbers[3] > handsToNumbers[7]){
+                    handsToNumbers[7] = handsToNumbers[3];
+                }
+                if(amountOfSameCards5 == 2 &&  handsToNumbers[4] > handsToNumbers[7]){
+                    handsToNumbers[7] = handsToNumbers[4];
+                }
             }
-                    if(handsToNumbers[7] == 0){
-                        int highCard = 0;
-                        for(int q = 0; q < 5; q++){
-                            if(handsToNumbers[q] > highCard){
-                                highCard = handsToNumbers[q];
-                            }
-                        }
-                        handsToNumbers[7] = highCard;
+            if(handsToNumbers[7] == 0){
+                int highCard = 0;
+                for(int q = 0; q < 5; q++){
+                    if(handsToNumbers[q] > highCard){
+                        highCard = handsToNumbers[q];
                     }
+                }
+                handsToNumbers[7] = highCard;
+            }
 
-                if(fiveOfAKind){
-                    handsToNumbers[6] = 6;
-                    amountOfFiveOfAKind++;
-                }
-                else if(fourOfAKind){
-                    handsToNumbers[6] = 5;
-                    amountOfFourOfAKind++;
-                }
-                else if(threeOfAKind && fullHousePossibile){
-                    handsToNumbers[6] = 4;
-                    amountOfFullHouse++;
-                }
-                else if(threeOfAKind){
-                    handsToNumbers[6] = 3;
-                    amountOfThreeOfAKind++;
-                }
-                else if(amountOfPairs == 2){
-                    handsToNumbers[6] = 2;
-                    amountOfTwoPair++;
-                }
-                else if(amountOfPairs == 1){
-                    handsToNumbers[6] = 1;
-                    amountOfPair++;
-                }
-                else{
-                    handsToNumbers[6] = 0;
-                    amountOfHighCard++;
-                }
 
-                currentHand.setHandPowerType(handsToNumbers[6]);
-                currentHand.setHandPowerCard(handsToNumbers[7]);
-                System.out.println(Arrays.toString(handsToNumbers));
+            if(fiveOfAKind){
+                handsToNumbers[6] = 6;
+                amountOfFiveOfAKind++;
+            }
+            else if(fourOfAKind){
+                handsToNumbers[6] = 5;
+                amountOfFourOfAKind++;
+            }
+            else if(threeOfAKind && fullHousePossibile){
+                handsToNumbers[6] = 4;
+                amountOfFullHouse++;
+            }
+            else if(threeOfAKind){
+                handsToNumbers[6] = 3;
+                amountOfThreeOfAKind++;
+            }
+            else if(amountOfPairs == 2){
+                handsToNumbers[6] = 2;
+                amountOfTwoPair++;
+            }
+            else if(amountOfPairs == 1){
+                handsToNumbers[6] = 1;
+                amountOfPair++;
+            }
+            else{
+                handsToNumbers[6] = 0;
+                amountOfHighCard++;
+            }
+
+
+            currentHand.setHandPowerType(handsToNumbers[6]);
+            currentHand.setHandPowerCard(handsToNumbers[7]);
+            System.out.println(Arrays.toString(handsToNumbers));
+            pokerHands[index] = currentHand;
+            index++;
+
+
         }
-//        int[] currentMinumimHand = new int[2];
-//        currentMinumimHand[0] = 0;
-//        currentMinumimHand[1] = 0;
-//        for(int handPower = 1; handPower < lines.length + 1; handPower++){
-//            for(int handNumber = 0; handNumber < lines.length; handNumber++ ){
-//                if();
-        //}
-        //}
+        int[] currentMaxHand = new int[3];
+        currentMaxHand[0] = 0;
+        currentMaxHand[1] = 0;
+        currentMaxHand[2] = 0;
+        int[] alreadyUsedMaxHands = new int[lines.length];
+//        alreadyUsedMaxHands[0] = -1;
+        int bidByRank = 0;
+        int extraIndex = 0;
+
+
+        for(int handPower = lines.length; handPower > 0; handPower--){
+            for(int handNumber = 0; handNumber < pokerHands.length; handNumber++ ){
+                Boolean usable = true;
+                for(int i = 0; i < lines.length - handPower; i++){
+                    if(handNumber == alreadyUsedMaxHands[i]){
+                        usable = false;
+                    }
+                }
+                if(usable && (currentMaxHand[0] < pokerHands[handNumber].getHandPowerType()
+                        || (currentMaxHand[0] == pokerHands[handNumber].getHandPowerType()
+                        && currentMaxHand[1] <= pokerHands[handNumber].getHandPowerCard()))){
+                    currentMaxHand[2] = handNumber;
+                    currentMaxHand[0] = pokerHands[handNumber].getHandPowerType();
+                    currentMaxHand[1] = pokerHands[handNumber].getHandPowerCard();
+                }
+
+
+            }
+            System.out.println(pokerHands[currentMaxHand[2]].toString());
+            bidByRank += pokerHands[currentMaxHand[2]].getBidValue() * handPower;
+            System.out.println(bidByRank);
+            alreadyUsedMaxHands[extraIndex] += currentMaxHand[2];
+            extraIndex++;
+            currentMaxHand[0] = 0;
+            currentMaxHand[1] = 0;
+            currentMaxHand[2] = 0;
+        }
         System.out.println("Number of five of a kind hands: " + amountOfFiveOfAKind);
         System.out.println("Number of four of a kind hands: " + amountOfFourOfAKind);
         System.out.println("Number of full house hands: " + amountOfFullHouse);
@@ -220,6 +264,9 @@ public class Main {
         System.out.println("Number of two pair hands: " + amountOfTwoPair);
         System.out.println("Number of one pair hands: " + amountOfPair);
         System.out.println("Number of high card hands: " + amountOfHighCard);
+        System.out.println("Total Bid: "  + bidByRank);
     }
 }
+
+
 
